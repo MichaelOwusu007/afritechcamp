@@ -1,4 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -84,7 +85,7 @@ export default function CourseDetail() {
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Course not found</h1>
           <Button asChild>
-            <Link to="/courses">Back to Courses</Link>
+            <Link href="/courses">Back to Courses</Link>
           </Button>
         </div>
       </Layout>
@@ -98,9 +99,9 @@ export default function CourseDetail() {
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="mb-6 text-sm text-muted-foreground">
-          <Link to="/courses" className="hover:text-primary transition-smooth">Courses</Link>
+          <Link href="/courses" className="hover:text-primary transition-smooth">Courses</Link>
           <span className="mx-2">/</span>
-          <Link to={`/courses?category=${encodeURIComponent(course.category)}`} className="hover:text-primary transition-smooth">
+          <Link href={`/courses?category=${encodeURIComponent(course.category)}`} className="hover:text-primary transition-smooth">
             {course.category}
           </Link>
           <span className="mx-2">/</span>
