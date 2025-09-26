@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AuthModals } from "@/components/auth/AuthModals";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -48,15 +47,7 @@ const categories = [
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [authOpen, setAuthOpen] = useState(false);
-  const [userType, setUserType] = useState<"student" | "instructor" | null>(
-    null
-  );
   const pathname = usePathname();
-
-  const handleAuthSuccess = (type: "student" | "instructor") => {
-    setUserType(type);
-  };
 
   const isActive = (path: string) => pathname === path;
 
@@ -177,7 +168,10 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/instructor-dashboard" className="flex items-center">
+                  <Link
+                    href="/instructor-dashboard"
+                    className="flex items-center"
+                  >
                     <GraduationCap className="mr-2 h-4 w-4" />
                     Instructor Dashboard
                   </Link>
