@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image"; // ✅ import Next.js Image
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -67,13 +68,6 @@ const testimonials = [
 export default function Landing() {
   const popularCourses = mockCourses.filter((c) => c.isPopular).slice(0, 3);
   const [authOpen, setAuthOpen] = useState(false);
-  const [userType, setUserType] = useState<"student" | "instructor" | null>(
-    null
-  );
-
-  const handleAuthSuccess = (type: "student" | "instructor") => {
-    setUserType(type);
-  };
 
   return (
     <div className="min-h-screen">
@@ -144,10 +138,14 @@ export default function Landing() {
 
             <div className="relative">
               <div className="rounded-3xl overflow-hidden shadow-lg shadow-orange-200/60">
-                <img
-                  src={heroImage.src}
+                {/* ✅ replaced <img> with <Image /> */}
+                <Image
+                  src={heroImage}
                   alt="African students learning"
+                  width={1200}
+                  height={600}
                   className="w-full h-96 lg:h-[500px] object-cover"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               </div>
@@ -300,12 +298,14 @@ export default function Landing() {
                     ))}
                   </div>
                   <p className="text-gray-600 leading-relaxed">
-                    "{t.content}"
+                    &quot;{t.content}&quot; {/* ✅ escaped quotes */}
                   </p>
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image
                       src={t.avatar}
                       alt={t.name}
+                      width={48}
+                      height={48}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <div>
@@ -348,7 +348,7 @@ export default function Landing() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-white cursor-pointer text-white bg-black hover:bg-white"
+                className="border-white cursor-pointer text-white bg-black hover:bg-white hover:text-black"
               >
                 Become an Instructor
               </Button>
@@ -362,7 +362,7 @@ export default function Landing() {
       <AuthModals
         open={authOpen}
         onOpenChange={setAuthOpen}
-        onAuthSuccess={handleAuthSuccess}
+        onAuthSuccess={() => {}}
       />
     </div>
   );

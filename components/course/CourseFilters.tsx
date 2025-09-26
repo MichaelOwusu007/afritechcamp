@@ -14,7 +14,6 @@ import {
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
