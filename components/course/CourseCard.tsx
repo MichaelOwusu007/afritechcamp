@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,13 +35,21 @@ export function CourseCard({ course, variant = "default" }: CourseCardProps) {
   const isFeatured = variant === "featured";
 
   return (
-    <Card className={`course-card p-0 overflow-hidden ${isFeatured ? "md:flex md:flex-row" : ""}`}>
+    <Card
+      className={`course-card p-0 overflow-hidden ${
+        isFeatured ? "md:flex md:flex-row" : ""
+      }`}
+    >
       {/* Thumbnail */}
       <div className={`relative ${isFeatured ? "md:w-1/2" : ""}`}>
-        <img
+        <Image
           src={course.thumbnail}
           alt={course.title}
-          className={`w-full object-cover ${isFeatured ? "h-64 md:h-full" : "h-48"}`}
+          width={600}
+          height={400}
+          className={`w-full object-cover ${
+            isFeatured ? "h-64 md:h-full" : "h-48"
+          }`}
         />
         {course.isPopular && (
           <Badge className="absolute top-3 left-3 gradient-sunset text-primary-foreground">
@@ -55,7 +64,11 @@ export function CourseCard({ course, variant = "default" }: CourseCardProps) {
       </div>
 
       {/* Content */}
-      <CardContent className={`p-2 ${isFeatured ? "md:w-1/2 md:flex md:flex-col md:justify-between" : ""}`}>
+      <CardContent
+        className={`p-2 ${
+          isFeatured ? "md:w-1/2 md:flex md:flex-col md:justify-between" : ""
+        }`}
+      >
         <div className="space-y-4">
           {/* Title & Category */}
           <div className="space-y-2">
@@ -63,9 +76,13 @@ export function CourseCard({ course, variant = "default" }: CourseCardProps) {
               <BookOpen className="h-4 w-4" />
               <span>{course.category}</span>
             </div>
-            <h3 className={`font-semibold leading-tight ${isFeatured ? "text-xl" : "text-lg"}`}>
-              <Link 
-                href={`/courses/${course.id}`} 
+            <h3
+              className={`font-semibold leading-tight ${
+                isFeatured ? "text-xl" : "text-lg"
+              }`}
+            >
+              <Link
+                href={`/courses/${course.id}`}
                 className="hover:text-primary transition-smooth"
               >
                 {course.title}
@@ -112,13 +129,19 @@ export function CourseCard({ course, variant = "default" }: CourseCardProps) {
         </div>
 
         {/* Price & Button */}
-        <div className={`flex items-center justify-between ${isFeatured ? "mt-6" : "mt-4"}`}>
+        <div
+          className={`flex items-center justify-between ${
+            isFeatured ? "mt-6" : "mt-4"
+          }`}
+        >
           <div className="space-y-1">
             {course.isFree ? (
               <div className="text-xl font-bold text-secondary">Free</div>
             ) : (
               <>
-                <div className="text-2xl font-bold text-foreground">${course.price}</div>
+                <div className="text-2xl font-bold text-foreground">
+                  ${course.price}
+                </div>
                 {course.originalPrice && (
                   <div className="text-sm text-muted-foreground line-through">
                     ${course.originalPrice}

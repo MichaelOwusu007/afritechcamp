@@ -149,7 +149,12 @@ export default function Courses() {
             <div className="flex justify-between items-center mb-6">
               <p className="text-muted-foreground">
                 Showing {filteredCourses.length} of {mockCourses.length} courses
-                {searchQuery && <span> for "{searchQuery}"</span>}
+                {searchQuery && (
+                  <span>
+                    {" "}
+                    for &quot;{searchQuery}&quot;
+                  </span>
+                )}
               </p>
             </div>
 

@@ -5,7 +5,6 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-//import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { 
@@ -45,13 +44,11 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
   };
 
   const handleSignUp = (userType: 'student' | 'instructor') => {
-    // Simulate signup success
     onAuthSuccess(userType);
     onOpenChange(false);
   };
 
   const handleSignIn = () => {
-    // Simulate signin success  
     onAuthSuccess(formData.userType);
     onOpenChange(false);
   };
@@ -62,7 +59,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-center justify-center">
             <div className="gradient-sunset p-2 rounded-xl">
-              <GraduationCap className="h-5 w-5 text-primary-foreground" />
+              <GraduationCap aria-hidden="true" className="h-5 w-5 text-primary-foreground" />
             </div>
             Join AfroLearn
           </DialogTitle>
@@ -87,7 +84,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                 <div className="space-y-2">
                   <Label htmlFor="signin-email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-email"
                       type="email"
@@ -102,7 +99,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                 <div className="space-y-2">
                   <Label htmlFor="signin-password">Password</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Lock aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-password"
                       type={showPassword ? 'text' : 'password'}
@@ -114,7 +111,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
@@ -177,7 +174,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                 >
                   <CardContent className="p-6 text-center space-y-3">
                     <div className="gradient-forest p-3 rounded-xl w-fit mx-auto">
-                      <BookOpen className="h-6 w-6 text-secondary-foreground" />
+                      <BookOpen aria-hidden="true" className="h-6 w-6 text-secondary-foreground" />
                     </div>
                     <div>
                       <h4 className="font-semibold">Student</h4>
@@ -196,7 +193,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                 >
                   <CardContent className="p-6 text-center space-y-3">
                     <div className="gradient-sunset p-3 rounded-xl w-fit mx-auto">
-                      <Users className="h-6 w-6 text-primary-foreground" />
+                      <Users aria-hidden="true" className="h-6 w-6 text-primary-foreground" />
                     </div>
                     <div>
                       <h4 className="font-semibold">Instructor</h4>
@@ -213,7 +210,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                   <div className="space-y-2">
                     <Label htmlFor="signup-name">Full Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <User aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-name"
                         placeholder="John Doe"
@@ -227,7 +224,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                   <div className="space-y-2">
                     <Label htmlFor="signup-phone">Phone Number</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Phone aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-phone"
                         placeholder="+234 800 000 0000"
@@ -242,7 +239,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">Email Address</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signup-email"
                       type="email"
@@ -258,7 +255,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                   <div className="space-y-2">
                     <Label htmlFor="signup-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Lock aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-password"
                         type={showPassword ? 'text' : 'password'}
@@ -270,7 +267,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -280,7 +277,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                   <div className="space-y-2">
                     <Label htmlFor="signup-confirm">Confirm Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Lock aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-confirm"
                         type="password"
@@ -300,7 +297,7 @@ export function AuthModals({ open, onOpenChange, onAuthSuccess }: AuthModalsProp
                     onCheckedChange={(checked) => handleInputChange('acceptTerms', checked)}
                   />
                   <Label htmlFor="terms" className="text-sm">
-                    I agree to the <button className="text-primary hover:underline">Terms of Service</button> and{' '}
+                    I agree to the <button className="text-primary hover:underline">Terms of Service</button>&nbsp;and&nbsp;
                     <button className="text-primary hover:underline">Privacy Policy</button>
                   </Label>
                 </div>
