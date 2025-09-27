@@ -1,57 +1,49 @@
-"use client"
+"use client";
 
-
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Collapsible,
   CollapsibleContent,
-} from '@/components/ui/collapsible';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
-import { ChevronDown, Filter, X } from 'lucide-react';
-import { categories } from '@/data/mockData';
+} from "@/components/ui/collapsible";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
+import { ChevronDown, Filter } from "lucide-react";
+import { categories } from "@/data/mockData";
+import type { Filters } from "@/app/types/course"; // ✅ shared type
 
 interface CourseFiltersProps {
-  filters: {
-    categories: string[];
-    level: string[];
-    price: [number, number];
-    rating: number;
-    language: string[];
-    duration: string[];
-  };
-  onFiltersChange: (filters: any) => void;
+  filters: Filters;
+  onFiltersChange: (filters: Filters) => void;
 }
 
 export function CourseFilters({ filters, onFiltersChange }: CourseFiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const levels = ['Beginner', 'Intermediate', 'Advanced'];
-  const languages = ['English', 'French', 'Swahili', 'Hausa', 'Arabic', 'Amharic'];
-  const durations = ['0-2 hours', '2-6 hours', '6-17 hours', '17+ hours'];
+  const levels: Filters["level"] = ["Beginner", "Intermediate", "Advanced"];
+  const languages = ["English", "French", "Swahili", "Hausa", "Arabic", "Amharic"];
+  const durations = ["0-2 hours", "2-6 hours", "6-17 hours", "17+ hours"];
 
-  const updateFilter = (key: string, value: any) => {
+  const updateFilter = <K extends keyof Filters>(key: K, value: Filters[K]) => {
     onFiltersChange({
       ...filters,
       [key]: value,
     });
   };
 
-  const toggleArrayFilter = (key: string, value: string) => {
-    const currentArray = filters[key as keyof typeof filters] as string[];
+  const toggleArrayFilter = (key: keyof Filters, value: string) => {
+    const currentArray = filters[key] as string[];
     const newArray = currentArray.includes(value)
-      ? currentArray.filter(item => item !== value)
+      ? currentArray.filter((item) => item !== value)
       : [...currentArray, value];
-    updateFilter(key, newArray);
+    updateFilter(key, newArray as Filters[typeof key]);
   };
 
   const clearFilters = () => {
@@ -65,21 +57,11 @@ export function CourseFilters({ filters, onFiltersChange }: CourseFiltersProps) 
     });
   };
 
-  const hasActiveFilters = 
-    filters.categories.length > 0 ||
-    filters.level.length > 0 ||
-    filters.language.length > 0 ||
-    filters.duration.length > 0 ||
-    filters.rating > 0 ||
-    filters.price[0] > 0 ||
-    filters.price[1] < 200;
-
   return (
     <div className="w-full lg:w-80 space-y-6">
-      {/* Mobile Filter Toggle */}
       <div className="lg:hidden">
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           onClick={() => setIsOpen(!isOpen)}
           className="w-full justify-between"
         >
@@ -87,194 +69,120 @@ export function CourseFilters({ filters, onFiltersChange }: CourseFiltersProps) 
             <Filter className="h-4 w-4" />
             Filters
           </div>
-          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          />
         </Button>
       </div>
 
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className="lg:block">
-        <CollapsibleContent className="space-y-6">
-          {/* Filter Header */}
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-lg">Filters</h3>
-            {hasActiveFilters && (
-              <Button variant="ghost" size="sm" onClick={clearFilters}>
-                <X className="h-4 w-4 mr-2" />
-                Clear All
-              </Button>
-            )}
-          </div>
-
-          {/* Sort By */}
-          <div className="space-y-3">
-            <h4 className="font-medium">Sort by</h4>
-            <Select defaultValue="popular">
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">Most Popular</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
+        <CollapsibleContent className="space-y-6 mt-6 lg:mt-0">
           {/* Categories */}
           <div className="space-y-3">
-            <h4 className="font-medium">Categories</h4>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
+            <h3 className="font-medium">Categories</h3>
+            <div className="space-y-2">
               {categories.map((category) => (
-                <div key={category.name} className="flex items-center space-x-2">
+                <label key={category.name} className="flex items-center gap-2">
                   <Checkbox
-                    id={category.name}
                     checked={filters.categories.includes(category.name)}
-                    onCheckedChange={() => toggleArrayFilter('categories', category.name)}
+                    onCheckedChange={() => toggleArrayFilter("categories", category.name)}
                   />
-                  <label
-                    htmlFor={category.name}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    {category.name} ({category.courseCount})
-                  </label>
-                </div>
+                  <span>{category.name}</span>
+                </label>
               ))}
             </div>
           </div>
 
           {/* Level */}
           <div className="space-y-3">
-            <h4 className="font-medium">Level</h4>
+            <h3 className="font-medium">Level</h3>
             <div className="space-y-2">
               {levels.map((level) => (
-                <div key={level} className="flex items-center space-x-2">
+                <label key={level} className="flex items-center gap-2">
                   <Checkbox
-                    id={level}
                     checked={filters.level.includes(level)}
-                    onCheckedChange={() => toggleArrayFilter('level', level)}
+                    onCheckedChange={() => toggleArrayFilter("level", level)}
                   />
-                  <label
-                    htmlFor={level}
-                    className="text-sm font-medium leading-none cursor-pointer"
-                  >
-                    {level}
-                  </label>
-                </div>
+                  <span>{level}</span>
+                </label>
               ))}
             </div>
           </div>
 
-          {/* Price Range */}
+          {/* Price */}
           <div className="space-y-3">
-            <h4 className="font-medium">Price Range</h4>
-            <div className="px-2">
-              <Slider
-                value={filters.price}
-                onValueChange={(value) => updateFilter('price', value)}
-                max={200}
-                step={5}
-                className="w-full"
-              />
-              <div className="flex justify-between text-sm text-muted-foreground mt-2">
-                <span>${filters.price[0]}</span>
-                <span>${filters.price[1]}</span>
-              </div>
+            <h3 className="font-medium">Price Range</h3>
+            <Slider
+              value={filters.price}
+              onValueChange={(value) =>
+                updateFilter("price", value as [number, number])
+              }
+              min={0}
+              max={200}
+              step={10}
+            />
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>${filters.price[0]}</span>
+              <span>${filters.price[1]}</span>
             </div>
           </div>
 
           {/* Rating */}
           <div className="space-y-3">
-            <h4 className="font-medium">Rating</h4>
-            <div className="space-y-2">
-              {[4.5, 4.0, 3.5, 3.0].map((rating) => (
-                <div key={rating} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`rating-${rating}`}
-                    checked={filters.rating === rating}
-                    onCheckedChange={() => updateFilter('rating', rating === filters.rating ? 0 : rating)}
-                  />
-                  <label
-                    htmlFor={`rating-${rating}`}
-                    className="text-sm font-medium leading-none cursor-pointer"
-                  >
-                    {rating}+ stars
-                  </label>
-                </div>
-              ))}
-            </div>
+            <h3 className="font-medium">Minimum Rating</h3>
+            <Select
+              value={filters.rating.toString()}
+              onValueChange={(val) => updateFilter("rating", parseInt(val))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select rating" />
+              </SelectTrigger>
+              <SelectContent>
+                {[0, 1, 2, 3, 4, 5].map((rating) => (
+                  <SelectItem key={rating} value={rating.toString()}>
+                    {rating === 0 ? "All Ratings" : `${rating}+ Stars`}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Language */}
           <div className="space-y-3">
-            <h4 className="font-medium">Language</h4>
-            <div className="space-y-2 max-h-32 overflow-y-auto">
-              {languages.map((language) => (
-                <div key={language} className="flex items-center space-x-2">
+            <h3 className="font-medium">Language</h3>
+            <div className="space-y-2">
+              {languages.map((lang) => (
+                <label key={lang} className="flex items-center gap-2">
                   <Checkbox
-                    id={language}
-                    checked={filters.language.includes(language)}
-                    onCheckedChange={() => toggleArrayFilter('language', language)}
+                    checked={filters.language.includes(lang)}
+                    onCheckedChange={() => toggleArrayFilter("language", lang)}
                   />
-                  <label
-                    htmlFor={language}
-                    className="text-sm font-medium leading-none cursor-pointer"
-                  >
-                    {language}
-                  </label>
-                </div>
+                  <span>{lang}</span>
+                </label>
               ))}
             </div>
           </div>
 
           {/* Duration */}
           <div className="space-y-3">
-            <h4 className="font-medium">Duration</h4>
+            <h3 className="font-medium">Duration</h3>
             <div className="space-y-2">
-              {durations.map((duration) => (
-                <div key={duration} className="flex items-center space-x-2">
+              {durations.map((dur) => (
+                <label key={dur} className="flex items-center gap-2">
                   <Checkbox
-                    id={duration}
-                    checked={filters.duration.includes(duration)}
-                    onCheckedChange={() => toggleArrayFilter('duration', duration)}
+                    checked={filters.duration.includes(dur)}
+                    onCheckedChange={() => toggleArrayFilter("duration", dur)}
                   />
-                  <label
-                    htmlFor={duration}
-                    className="text-sm font-medium leading-none cursor-pointer"
-                  >
-                    {duration}
-                  </label>
-                </div>
+                  <span>{dur}</span>
+                </label>
               ))}
             </div>
           </div>
 
-          {/* Active Filters */}
-          {hasActiveFilters && (
-            <div className="space-y-3 border-t pt-4">
-              <h4 className="font-medium">Active Filters</h4>
-              <div className="flex flex-wrap gap-2">
-                {filters.categories.map((category) => (
-                  <Badge key={category} variant="secondary" className="text-xs">
-                    {category}
-                    <X 
-                      className="h-3 w-3 ml-1 cursor-pointer" 
-                      onClick={() => toggleArrayFilter('categories', category)}
-                    />
-                  </Badge>
-                ))}
-                {filters.level.map((level) => (
-                  <Badge key={level} variant="secondary" className="text-xs">
-                    {level}
-                    <X 
-                      className="h-3 w-3 ml-1 cursor-pointer" 
-                      onClick={() => toggleArrayFilter('level', level)}
-                    />
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Clear */}
+          <Button variant="outline" className="w-full" onClick={clearFilters}>
+            Clear Filters
+          </Button>
         </CollapsibleContent>
       </Collapsible>
     </div>
